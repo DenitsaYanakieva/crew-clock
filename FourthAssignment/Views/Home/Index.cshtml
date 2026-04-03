@@ -1,0 +1,48 @@
+﻿@model FourthAssignment.Models.WeekScheduleViewModel
+
+@{
+    ViewData["Title"] = "Employee Schedule";
+}
+
+<h2>Employee Schedule</h2>
+<p class="text-muted">
+    Week: @Model.WeekStart.ToString("dd MMM yyyy") &ndash; @Model.WeekEnd.ToString("dd MMM yyyy")
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered schedule-table">
+        <thead class="table-light">
+            <tr>
+                <th>Employee</th>
+                @foreach (var day in Model.Employees.FirstOrDefault()?.Days ?? new System.Collections.Generic.List<FourthAssignment.Models.DaySchedule>())
+                {
+                    <th>@day.DayName<br /><small>@day.Date.ToString("dd/MM")</small></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in Model.Employees)
+            {
+                <tr>
+                    <td class="fw-bold">@emp.EmployeeName</td>
+                    @foreach (var day in emp.Days)
+                    {
+                        <td class="day-cell">
+                            @foreach (var shift in day.Shifts)
+                            {
+                                <a href="@Url.Action("Edit", "Shifts", new { id = shift.ShiftId })"
+                                   class="btn btn-sm btn-outline-primary d-block mb-1 shift-item">
+                                    @shift.RoleName @shift.StartTime.ToString(@"hh\:mm") - @shift.EndTime.ToString(@"hh\:mm")
+                                </a>
+                            }
+                            <a href="@Url.Action("Create", "Shifts", new { employeeId = emp.EmployeeId, date = day.Date.ToString("yyyy-MM-dd") })"
+                               class="btn btn-sm btn-success d-block add-shift" title="Add shift">
+                                +
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

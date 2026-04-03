@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FourthAssignment/FourthAssignment.csproj" />
+  <Project Path="FourthAssignment.Tests/FourthAssignment.Tests.csproj" />
+</Solution>
